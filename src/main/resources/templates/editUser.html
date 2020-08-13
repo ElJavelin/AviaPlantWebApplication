@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        #mainDiv{
+            width: 20%;
+            margin-left: 40%;
+            margin-top: 10%;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+
+<div th:each="el : ${userData}">
+    <form th:action="@{/User}" method="post">
+        <h1 style="margin-left: 38%; margin-top: 5%;">Редактирование аккаунта</h1>
+        <div id="mainDiv">
+
+            <div class="form-group">
+                <label for="inputEmail">Логин</label>
+                <input type="text" th:value="${el.username}" name="username" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Введите новый логин">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10%;">
+                <label for="inputPassword">Пароль</label>
+                <input type="text" th:value="${el.password}" name="password" class="form-control" id="inputPassword" aria-describedby="emailHelp" placeholder="Введите новый пароль">
+            </div>
+
+            <div class="form-check" th:each="role : ${roles}">
+                <label class="form-check-label">
+                    <input class="form-check-input" th:text="${role}" type="checkbox" th:name="${role}" th:value="${role}">
+                </label>
+            </div>
+
+            <input type="hidden" th:value="${el.userDataID}" name="userDataID">
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 10%; margin-left: 30%;">Подтвердить</button>
+
+            <!--
+            <input type="text" th:value="${el.username}" name="username">
+            <input type="text" th:value="${el.password}" name="password">
+            -->
+
+        </div>
+        <!--
+        <fieldset class="form-group">
+            <div class="form-check" th:each="role : ${roles}">
+                <label class="form-check-label">
+                    <input class="form-check-input" th:text="${role}" type="checkbox" th:name="${role}" th:value="${role}">
+                </label>
+            </div>
+            <input type="hidden" th:value="${el.userDataID}" name="userDataID">
+            <button type="submit">Сохранить</button>
+        </fieldset>
+        -->
+    </form>
+</div>
+</body>
+</html>
+
+
+
+
+

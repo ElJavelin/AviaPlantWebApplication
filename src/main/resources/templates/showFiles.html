@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="refresh" content="1;URL=/PersonalPage" />-->
+    <title>Title</title>
+    <style>
+        div{
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body onload="beginDownload()">
+    <div hidden>
+        <h1>list of files:</h1>
+        <div th:each="file: ${file}">
+            <a id="downloadLink" th:href="@{'/Reports/'+${file.getName()}}"><span th:text="${file.getName()}"></span></a>
+            <span th:text="${file.length()/1024} + ' кб'"></span>
+        </div>
+    </div>
+
+    <a id="returnLink" th:href="@{/PersonalPage}"></a>
+
+    <script th:inline="javascript">
+    function beginDownload() {
+        document.getElementById("downloadLink").click()
+        setTimeout(redirectFunc, 500);
+    };
+
+    function redirectFunc() {
+        document.getElementById("returnLink").click()
+    };
+</script>
+</body>
+</html>

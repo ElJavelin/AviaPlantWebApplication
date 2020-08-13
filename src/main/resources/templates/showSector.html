@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        #mainTable {
+        table-layout:fixed;
+            width: 97.8%;
+            margin-left: 1.2%;
+            margin-right: 1.2%;
+
+        }
+
+        #mainDiv {
+            height: 50%;
+        }
+         </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<div id="mainDiv">
+    <table class="table table-hover" id="mainTable">
+        <thead>
+        <tr>
+            <th scope="col">Номер участка</th>
+            <th scope="col">Название участка</th>
+            <th scope="col">Название цеха</th>
+            <th><a href="addSector"><font color="gray">Добавить</font></a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each ="element : ${sector}" class="table-active">
+            <td th:text="${element.sectorID}"></td>
+            <td th:text="${element.nameOfSector}"></td>
+            <td th:text="${element.getNameOfWorkshop()}"></td>
+            <td>
+                <a th:href="@{'deleteSector/' + ${element.sectorID}}"><font color="black">Удалить</font></a>
+                <br />
+                <a th:href="@{'editSector/' + ${element.sectorID}}"><font color="black">Изменить</font></a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<link rel="import" href="import/footer.html">
+</body>
+</html>
+
+
+
+
+
+

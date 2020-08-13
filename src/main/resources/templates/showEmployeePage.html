@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:employee="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style type="text/css">
+        #leftFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+
+        }
+        #rightFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+            left: 50%;
+
+        }
+        #imgDiv {
+            margin-left: 25%;
+            margin-top: 2%;
+            width: 39.9%;
+            border: 3px solid #666;
+        }
+        #workInfoDiv {
+            margin-left: 15%;
+            margin-top: 6.5%;
+        }
+        #registrationHref {
+
+        }
+        h3 {
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+    </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<fieldset id="leftFieldSet">
+
+    <div class="card" style="width: 18rem;" th:each="employee: ${employee}" id="imgDiv">
+        <img th:src="@{'/img/Employee/' + ${employee.fileName}}" class="card-img-top" alt="Ошибка выгрузки">
+    </div>
+
+
+    <div id="workInfoDiv">
+        <div th:each="union: ${union}">
+            <legend style="margin-left: 10%;"><i>Рабочая информация</i></legend>
+            <h3 id="nameOfTheUnion" th:text="'Название объединения: ' + ${union.nameOfTheUnion}"></h3>
+        </div>
+
+
+        <div th:each="workshop: ${workshop}">
+            <h3 id="workshop" th:text="'Название цеха: '+ ${workshop.nameOfWorkshop}"></h3>
+        </div>
+
+
+        <div th:each="sector: ${sector}">
+            <h3 id="sector" th:text="'Название участка: '+ ${sector.nameOfSector}"></h3>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset id="rightFieldSet">
+    <div th:each="employee: ${employee}">
+        <legend><i>Личная информация</i></legend>
+        <!--
+                <div th:switch="${employee.getMainRole()}">
+                    <p th:case="ADMIN">
+
+
+
+            </p>
+
+        </div>
+ -->
+        <a th:href="@{'/registration/' + ${employee.employeeID}}" id="registrationHref"><h3>Добавить аккаунт</h3></a>
+        <h3 id="lastname" th:text="'Фамилия: ' + ${employee.lastname}"></h3>
+        <h3 id="name" th:text="'Имя: ' + ${employee.name}"></h3>
+        <h3 id="patronymic" th:text="'Отчество: ' + ${employee.patronymic}"></h3>
+        <h3 id="typeOfEmployee" th:text="'Тип работника: ' + ${employee.typeOfEmployee}"></h3>
+        <h3 id="dob" th:text="'Дата рождения: ' + ${employee.dob}"></h3>
+        <h3 id="sex" th:text="'Пол: ' + ${employee.sex}"></h3>
+        <h3 id="post" th:text="'Должность: ' + ${employee.post}"></h3>
+        <h3 id="education" th:text="'Образование: ' + ${employee.education}"></h3>
+        <h3 id="experience" th:text="'Стаж: ' + ${employee.experience}"></h3>
+        <h3 id="dateOfEntry" th:text="'Дата трудоустройства: ' + ${employee.dateOfEntry}"></h3>
+        <h3 id="salary" th:text="'Заработная плата: ' + ${employee.salary} + ' руб.'"></h3>
+        <h3 id="status" th:text="'Статус: ' + ${employee.status}"></h3>
+        <h3 id="headOfUnion" th:text="${employee.headOfUnion} ? 'Является ли главой объединения: Да' : 'Является ли главой объединения: Нет'"></h3>
+    </div>
+</fieldset>
+
+
+</body>
+</html>

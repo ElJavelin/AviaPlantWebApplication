@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <style type="text/css">
+        #leftFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+            right: 50%;
+
+        }
+        #rightFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+            left: 50%;
+
+        }
+        #dialogTable {
+            width: 10%;
+            top: 5%;
+
+        }
+        #userDataDiv {
+            margin-left: 15%;
+            margin-top: 5%;
+
+        }
+         #imgDiv {
+            margin-left: 25%;
+            margin-top: 2%;
+            width: 39.9%;
+            border: 3px solid #666;
+        }
+        h3 {
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+        .search{
+            height: 100%;
+            width: 100%;
+            background-color: RGB(249, 201, 16);
+        }
+        .downdloadReportDiv{
+            width: 800px;
+            margin: auto;
+        }
+        #dialogDiv{
+            margin-top: 10%;
+            width: 35%;
+
+        }
+        #chatDiv{
+            position: absolute;
+            left: 40%;
+            top: 25%;
+            width: 65%;
+            height: 150%;
+            border: 3px solid #666;
+        }
+        #chatHeader{
+            margin-left: 5%;
+            margin-top: 5%;
+            height: 10%;
+            width: 200%;
+        }
+        #chatField{
+            margin-top: 0%;
+            margin-left: 0%;
+            width: 100%;
+            height: 310px;
+            position: relative;
+            overflow: auto;
+        }
+        #inputTextField{
+            position: absolute;
+            top: 80%;
+            height: 20%;
+            width: 100%;
+
+        }
+        #textField{
+            width: 96%;
+            margin-left: 2%;
+            height: 80px;
+        }
+        #send{
+            position: absolute;
+            border: 1px solid #666;
+            top: 40%;
+            left: 77%;
+        }
+
+    </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<fieldset id="leftFieldSet">
+
+    <div id="dialogDiv">
+        <table id="dialogsTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Диалоги:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dialog: ${dialogs}" >
+                <td><a th:href="@{'/personalPageStartChatting/' + ${dialog.dialogID}}" th:text="${dialog.dialogName}" style="color: rgb(0, 0, 0);"></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div id="chatDiv">
+            <div hidden>
+                <p id="dialogIDField" th:text="${dialog.dialogID}"></p>
+                <p id="employeeFullNameField" th:text="${employee.name}"></p>
+            </div>
+            <div id="main-content" class="container">
+                <div class="col-md-6" >
+                    <form class="form-inline">
+                        <div class="form-group" id="chatHeader">
+                            <label for="connect"><h4>Название диалога:</h4></label>
+                            <h5 th:text="${dialog.dialogName}" style="margin-top: 0.5%; margin-left: 2%;"></h5>
+                            <button hidden id="connect" class="btn btn-default" type="submit">Connect</button>
+                            <button hidden id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="chatField">
+                    <div>
+                        <table id="conversation" class="table">
+                            <thead>
+                            </thead>
+                            <tbody id="greetings">
+                            <tr th:each="message: ${messages}" >
+                                <td th:text="${message.sender} + ': ' + ${message.text}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inputTextField">
+                <form >
+                    <div class="form-group">
+                        <input type="text" id="textField" class="form-control" placeholder="Введите сообщение...">
+                    </div>
+                    <button id="send" class="btn btn-default" type="submit">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset id="rightFieldSet">
+    <div id="employeeDataDiv" th:each="employee: ${employee}">
+
+        <div class="card" style="width: 18rem;" id="imgDiv">
+            <img th:src="@{'/img/Employee/' + ${employee.fileName}}" class="card-img-top" alt="Ошибка выгрузки">
+        </div>
+
+
+        <!--
+            <div th:replace="${#authentication.principal.isAdmin()} ? ~{fragments/footer :: footer-admin} : ~{fragments/footer :: footer-admin}">
+      &copy; 2016 The Static Templates
+    </div>
+        -->
+    </div>
+
+    <div id="userDataDiv" th:each="userData: ${userData}">
+        <h3 id="yourname" th:text="'Логин: ' + ${userData.username}"></h3>
+        <h3 id="lastname" th:text="'Фамилия: ' + ${employee.lastname}"></h3>
+        <h3 id="name" th:text="'Имя: ' + ${employee.name}"></h3>
+        <h3 id="patronymic" th:text="'Отчество: ' + ${employee.patronymic}"></h3>
+        <h3 id="typeOfEmployee" th:text="'Тип работника: ' + ${employee.typeOfEmployee}"></h3>
+        <h3 id="status" th:text="'Статус: ' + ${employee.status}"></h3>
+        <h3 id="headOfUnion"
+            th:text="${employee.headOfUnion} ? 'Является ли главой объединения: Да' : 'Является ли главой объединения: Нет'"></h3>
+
+    </div>
+</fieldset>
+<script>
+
+
+
+
+    var stompClient = null;
+
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+    }
+    else {
+        $("#conversation").hide();
+    }
+
+}
+
+function connect() {
+    var socket = new SockJS('/gs-guide-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/dialog', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+    });
+}
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
+ $("#dialogIDField").val()
+function sendName() {
+    var dialogValue = $("#dialogIDField").text();
+    var employeeNameValue = $("#employeeFullNameField").text();
+    //console.log(temp);
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#textField").val(), 'dialogID': dialogValue, 'senderName': employeeNameValue}));
+}
+
+function showGreeting(message) {
+    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+$(function () {
+    $("form").on('submit', function (e) {
+        e.preventDefault();
+    });
+    $( "#connect" ).click(function() { connect(); });
+    $( "#disconnect" ).click(function() { disconnect(); });
+    $( "#send" ).click(function() { sendName(); });
+    console.log('sdf');
+    document.getElementById("connect").click();
+});
+</script>
+</body>
+</html>

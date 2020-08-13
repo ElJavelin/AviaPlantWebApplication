@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:employee="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style type="text/css">
+        #leftFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+
+        }
+        #rightFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+            left: 50%;
+
+        }
+        #imgDiv {
+            margin-left: 25%;
+            margin-top: 2%;
+            width: 39.9%;
+            border: 3px solid #666;
+        }
+        #productInfoDiv {
+            margin-left: 20%;
+            margin-top: 6.5%;
+        }
+        h3 {
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+
+    </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<fieldset id="leftFieldSet">
+
+    <div class="card" style="width: 18rem;" th:each="product: ${product}" id="imgDiv">
+        <img th:src="@{'/img/Product/' + ${product.fileName}}" class="card-img-top" alt="Ошибка выгрузки">
+    </div>
+
+    <div id="productInfoDiv">
+        <legend style="margin-left: 10%;"><i>Данные продукта</i></legend>
+        <h3 id="classA">Класс: легкомоторный СХ самолет</h3>
+        <h3 id="numOfSeats">Кол-во пассажирских сидений: 1</h3>
+    </div>
+
+</fieldset>
+
+<fieldset id="rightFieldSet">
+    <div th:each="product: ${product}">
+        <legend><i>Техническая информация</i></legend>
+        <h3 id="typeOfProduct" th:text="'Тип продукта: ' + ${product.typeOfProduct}"></h3>
+        <h3 id="destinationCountry" th:text="'Страна назначения: ' + ${product.destinationCountry}"></h3>
+        <h3 id="price" th:text="'Стоимость: ' + ${product.price} + '$'"></h3>
+        <h3 id="startDate" th:text="'Дата начала изготовления: ' + ${product.startDate}"></h3>
+        <h3 id="plannedCompletionDate" th:text="'Плановая дата завершения: ' + ${product.plannedCompletionDate}"></h3>
+        <h3 id="status" th:text="'Статус: ' + ${product.status}"></h3>
+    </div>
+
+    <div th:each="aircraft: ${aircraft}">
+        <h3 id="type" th:text="'Тип воздушного судна: ' + ${aircraft.type}"></h3>
+        <h3 id="model" th:text="'Модель: ' + ${aircraft.model}"></h3>
+        <h3 id="crew" th:text="'Экипаж: ' + ${aircraft.crew}"></h3>
+        <h3 id="weight" th:text="'Вес: ' + ${aircraft.weight} + ' кг.'"></h3>
+        <h3 id="longA" th:text="'Длинна: ' + ${aircraft.longA} + ' мм.'"></h3>
+        <h3 id="height" th:text="'Высота: ' + ${aircraft.height} + ' мм.'"></h3>
+        <h3 id="width" th:text="'Ширина: ' + ${aircraft.width} + ' мм.'"></h3>
+        <h3 id="cruisingSpeed" th:text="'Крейсерская скорость: ' + ${aircraft.cruisingSpeed} + ' км/ч.'"></h3>
+        <h3 id="maxSpeed" th:text="'Максимальная скорость: ' + ${aircraft.maxSpeed} + ' км/ч.'"></h3>
+        <h3 id="numberOfEngines" th:text="'Кол-во двигателей: ' + ${aircraft.numberOfEngines} + ' '"></h3>
+        <h3 id="engineType" th:text="'Тип двигателя: ' + ${aircraft.engineType}"></h3>
+
+
+    </div>
+</fieldset>
+
+
+</body>
+</html>

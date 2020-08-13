@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        #leftFieldSet {
+            width: 500px;
+            position: absolute;
+            top: 15%;
+            left: 10%;
+        }
+        #rightFieldSet {
+            width: 500px;
+            position: absolute;
+            top: 20%;
+            left: 55%;
+        }
+
+
+    </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<div th:each="el : ${union}">
+    <form th:action="@{/updateUnion}" method="post" enctype="multipart/form-data">
+        <fieldset id="leftFieldSet">
+            <legend>Редактирование участка</legend>
+
+            <input type="hidden" class="form-control" id="InputUnionID" aria-describedby="UnionHelp" name="unionID"
+                   th:value="${el.unionID}">
+
+            <div class="form-group">
+                <label for="SelectSectorID">Название цеха</label>
+                <select class="form-control" id="SelectSectorID" name="sector">
+                    <option th:each="sector : ${sector}" th:text="${sector.nameOfSector}"
+                            th:value="${el.getSectorID()}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="InputNameOfUnion"></label>
+                <input type="text" class="form-control" id="InputNameOfUnion" aria-describedby="NameHelp"
+                       placeholder="Введите название объединения" name="nameOfUnion" th:value="${el.nameOfTheUnion}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Подтвердить</button>
+
+        </fieldset>
+
+    </form>
+</div>
+</body>
+</html>
+

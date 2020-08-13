@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Авторизация</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style type="text/css">
+        #leftFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+
+        }
+        #rightFieldSet {
+            width: 50%;
+            position: absolute;
+            top: 15%;
+            left: 50%;
+
+        }
+        #imgDiv {
+            margin-left: 25%;
+            margin-top: 2%;
+            width: 39.9%;
+            border: 3px solid #666;
+        }
+        #workInfoDiv {
+            margin-left: 25%;
+            margin-top: 6.5%;
+        }
+        #inputField {
+            margin-right: 45%;
+        }
+        h3 {
+            margin-bottom: 2%;
+            margin-top: 2%;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="error" class="alert alert-dismissible alert-warning" th:if="${param.error}">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading">Внимание!</h4>
+    <p class="mb-0">Неверный логин или пароль</p>
+</div>
+
+<div id="alert" class="alert alert-dismissible alert-success" th:if="${param.logout}">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p class="mb-0">Вы вышли из аккаунта</p>
+</div>
+<header th:insert="import/header :: header"></header>
+
+<div th:each="employee: ${employee}">
+    <fieldset id="leftFieldSet">
+
+        <div class="form-group">
+
+            <div class="card" style="width: 18rem;" id="imgDiv">
+                <img th:src="@{'/img/Employee/' + ${employee.fileName}}" class="card-img-top" alt="Ошибка выгрузки">
+            </div>
+
+            <div id="workInfoDiv">
+                <h3 id="lastname" th:text="'Фамилия: ' + ${employee.lastname}"></h3>
+                <h3 id="name" th:text="'Имя: ' + ${employee.name}"></h3>
+                <h3 id="patronymic" th:text="'Фамилия: ' + ${employee.patronymic}"></h3>
+                <h3 id="typeOfEmployee" th:text="'Тип работника: ' + ${employee.typeOfEmployee}"></h3>
+            </div>
+        </div>
+    </fieldset>
+
+    <div>
+        <fieldset id="rightFieldSet">
+            <legend>Регистрация аккаунта</legend>
+            <form th:action="@{/registration}" method="post">
+
+                <div id="inputField">
+                    <div class="form-group">
+                        <label for="InputUsername"></label>
+                        <input type="text" class="form-control" id="InputUsername" aria-describedby="NameHelp"
+                               placeholder="Введите логин" name="username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="InputPassword"></label>
+                        <input type="text" class="form-control" id="InputPassword" aria-describedby="NamePassword"
+                               placeholder="Введите пароль" name="password">
+                    </div>
+                </div>
+
+
+                <input th:value="${employee.employeeID}" type="hidden" name="employeeID">
+
+
+                <button type="submit" value="Sign In" class="btn btn-primary">Подтвердить</button>
+
+            </form>
+        </fieldset>
+    </div>
+</div>
+</body>
+</html>

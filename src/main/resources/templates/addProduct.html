@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        #productFieldSet {
+            width: 90%;
+            position: absolute;
+            top: 15%;
+            left: 10%;
+        }
+        #aircraftFieldSet {
+            width: 90%;
+            position: absolute;
+            top: 65%;
+            left:10%;
+        }
+        #attackFieldSet {
+            width: 90%;
+            position: absolute;
+            top: 130%;
+            left:10%;
+        }
+        #transportFieldSet {
+            width: 90%;
+            position: absolute;
+            top: 130%;
+            left:10%;
+        }
+        #civilianFieldSet {
+            width: 90%;
+            position: absolute;
+            top: 130%;
+            left:10%;
+        }
+        #mainButton{
+            position: absolute;
+            top: 136%;
+            left: 55%;
+        }
+        </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<div>
+    <form th:action="@{/addProduct}" method="post" enctype="multipart/form-data" id="mainForm">
+
+    <fieldset id="productFieldSet">
+            <legend>Добавление нового продукта</legend>
+
+            <div style="width: 40%; float: left;">
+                <div class="form-group">
+                    <label for="SelectSector">Выберите участок для продукта</label>
+                    <select class="form-control" id="SelectSector" name="sector">
+                        <option th:each="sector : ${sector}" th:text="${sector.nameOfSector}" th:value="${sector.sectorID}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="SelectTypeOfProduct">Выберите тип</label>
+                    <select class="form-control" id="SelectTypeOfProduct" name="typeOfProduct">
+                        <option>Самолет</option>
+                        <option>Вертолет</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputDestinationCountry"></label>
+                    <input type="text" class="form-control" id="InputDestinationCountry" aria-describedby="DestinationCountryHelp" placeholder="Введите страну назначения" name="destinationCountry">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Стоимость заказа</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="price">
+                            <div class="input-group-append">
+                                <span class="input-group-text">.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 40%; margin-left: 50%; margin-top: 0.5%;">
+                <div class="form-group">
+                    <label for="InputStartDate"></label>
+                    <input type="date" value="2000-01-01" class="form-control" id="InputStartDate" aria-describedby="startDateHelp" placeholder="Дата начала изготовления" name="startDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputPlannedCompletionDate"></label>
+                    <input type="date" value="2000-01-01" class="form-control" id="InputPlannedCompletionDate" aria-describedby="plannedCompletionDateHelp" placeholder="Плановая дата завершения изготовления" name="plannedCompletionDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" >Выберите статус</label>
+                    <select class="form-control" id="SelectStatus" name="status" onchange="selectChanged(this.value);">
+                        <option>Производится</option>
+                        <option>Завершено</option>
+                        <option>Приостановлено</option>
+                    </select>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset id="aircraftFieldSet">
+            <legend><h5> Добавление полей возушного судна</h5></legend>
+
+            <div style="width: 40%; float: left;">
+                <div class="form-group">
+                    <label class="control-label" >Выберите тип</label>
+                    <select class="form-control" id="SelectType" name="type" onchange="hideAdditionalFields(this.value);">
+                        <option value="Civilian">Гражданский</option>
+                        <option value="Transport" >Транспортный</option>
+                        <option value="Attack">Боевой</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputAircraftModel"></label>
+                    <input type="text" class="form-control" id="InputAircraftModel" aria-describedby="aircraftModelHelp" placeholder="Модель" name="aircraftModel">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputCrew"></label>
+                    <input type="number" class="form-control" id="InputCrew" aria-describedby="experienceHelp" placeholder="Экипаж" name="crew">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Сухой вес</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">кг</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="weight">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputLong"></label>
+                    <input type="number" class="form-control" id="InputLong" aria-describedby="longHelp" placeholder="Длина" name="longA">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputLong"></label>
+                    <input type="number" class="form-control" id="InputHeight" aria-describedby="heightHelp" placeholder="Высота" name="height">
+                </div>
+
+            </div>
+
+            <div style="width: 40%; margin-left: 50%; margin-top: 0.5%;">
+                <div class="form-group">
+                    <label for="InputWidth"></label>
+                    <input type="number" class="form-control" id="InputWidth" aria-describedby="widthHelp" placeholder="Ширина" name="width">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Крейсерская скорость</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">км/ч</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="cruisingSpeed">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Максимальная скорость</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">км/ч</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="maxSpeed">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputNumberOfEngines"></label>
+                    <input type="number" class="form-control" id="InputNumberOfEngines" aria-describedby="numberOfEnginesHelp" placeholder="Кол-во двигателей" name="numberOfEngines">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputEngineType"></label>
+                    <input type="text" class="form-control" id="InputEngineType" aria-describedby="engineTypeHelp" placeholder="Тип двигателя" name="engineType">
+                </div>
+
+                <div class="input-group mb-3" style="margin-top: 6%;">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
+                        <label class="custom-file-label" for="inputGroupFile02">Загрузка изображения</label>
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+        <fieldset id="attackFieldSet" style="display: none">
+            <div style="width: 40%; float: left;">
+                <legend><h5>Добавление полей боевого судна</h5></legend>
+
+                <div class="form-group">
+                    <label for="InputTypeA"></label>
+                    <input type="text" class="form-control" id="InputTypeA" aria-describedby="typeAHelp" placeholder="Введите тип боевого судна" name="typeA">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputCorps"></label>
+                    <input type="text" class="form-control" id="InputCorps" aria-describedby="typeCorps" placeholder="Введите род войск" name="corps">
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="transportFieldSet" style="display: none">
+            <div style="width: 40%; float: left;">
+                <legend><h5>Добавление полей транспортного судна</h5></legend>
+
+                <div class="form-group">
+                    <label for="InputType"></label>
+                    <input type="text" class="form-control" id="InputType" aria-describedby="typeAHelp" placeholder="Введите тип транспортного судна" name="typeT">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Грузоподъемность</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">кг</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="carryingCapacity">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Внутренний объем</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">м. куб</span>
+                            </div>
+                            <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="innerSpace">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="civilianFieldSet" style="display: block">
+            <div style="width: 40%; float: left;">
+                <legend><h5> Добавление полей гражданского судна</h5></legend>
+
+                <div class="form-group">
+                    <label for="InputCType"></label>
+                    <input type="text" class="form-control" id="InputCType" aria-describedby="typeAHelp" placeholder="Введите тип гражданского судна" name="cType">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputClassA"></label>
+                    <input type="text" class="form-control" id="InputClassA" aria-describedby="typeAHelp" placeholder="Введите класс судна" name="classA">
+                </div>
+
+                <div class="form-group">
+                    <label for="InputNumOfSeats"></label>
+                    <input type="number" class="form-control" id="InputNumOfSeats" aria-describedby="numOfSeatsHelp" placeholder="Кол-во мест" name="numOfSeats">
+                </div>
+
+            </div>
+
+        </fieldset>
+        <button type="submit" class="btn btn-primary" id="mainButton" onclick="" >Подтвердить</button>
+    </form>
+</div>
+<link rel="import" href="import/footer.html">
+<script th:inline="javascript">
+
+$('#mainButton').click(function () {
+        var action = $('#mainForm').attr('action');
+        var selectedVar = getSelectedValue();
+        var result = action + '/' + selectedVar;
+        $('#mainForm').attr('action', result);
+    });
+
+    function hideAdditionalFields(value) {
+    switch(value) {
+        case 'Civilian':
+            var firstArg = 'attackFieldSet';
+            var secondArg = 'transportFieldSet';
+            var thirdArg = 'civilianFieldSet';
+            break;
+        case 'Transport':
+            var firstArg = 'attackFieldSet';
+            var secondArg = 'civilianFieldSet';
+            var thirdArg = 'transportFieldSet';
+            break;
+        case 'Attack':
+            var firstArg = 'transportFieldSet';
+            var secondArg = 'civilianFieldSet';
+            var thirdArg = 'attackFieldSet';
+            break;
+    }
+
+    var x = document.getElementById(firstArg);
+    var z = document.getElementById(secondArg);
+    var t = document.getElementById(thirdArg);
+
+    x.style.display = "none";
+    z.style.display = "none";
+    t.style.display = "block";
+}
+
+ function getSelectedValue(){
+     var selectedVar = $("#SelectType").val();
+     return selectedVar;
+   }
+
+</script>
+</body>
+</html>
+

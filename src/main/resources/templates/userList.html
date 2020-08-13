@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha384-cRAmF0wErT4D9dEBc36qB6pVu+KmLh516IoGWD/Gfm6FicBbyDuHgS4jmkQB8u1a" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+            #mainTable {
+            table-layout:fixed;
+            width: 97.8%;
+            margin-left: 1.2%;
+            margin-right: 1.2%;
+
+        }
+         </style>
+</head>
+<body>
+<header th:insert="import/header :: header"></header>
+<h1>Список аккаунтов</h1>
+<table class="table table-hover" id="mainTable">
+    <thead>
+    <tr>
+        <th scope="col">ИД</th>
+        <th scope="col">Логин</th>
+        <th scope="col">Пароль</th>
+        <th scope="col">Роль</th>
+        <th scope="col">Редактировать</th>
+        <th scope="col">Удалить пользователя</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each ="el : ${users}" class="table-primary">
+        <td th:text="${el.userDataID}"></td>
+        <td th:text="${el.username}"></td>
+        <td th:text="${el.password}"></td>
+        <td th:text="${el.roles}"></td>
+        <td><a th:href=" '/User/' + ${el.userDataID}">Изменить</a></td>
+        <td><a th:href="'/User/'  + ${el.userDataID}">Удалить</a></td>
+    </tr>
+
+    </tbody>
+</table>
+</body>
+</html>
+
+
+
+
+

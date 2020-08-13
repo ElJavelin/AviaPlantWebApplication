@@ -1,0 +1,43 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/PersonalPage">AviaPlant</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto" >
+                <li class="nav-item dropdown show">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Просмотр</a>
+                    <div class="dropdown-menu hidden" style="position: absolute; transform: translate3d(0px, 48px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="/showWorkshop">Цех</a>
+                        <a class="dropdown-item" href="/showSector">Участок</a>
+                        <a class="dropdown-item" href="/showUnion">Объединение</a>
+                        <a class="dropdown-item" href="/showEmployee">Сотрудник</a>
+                        <a class="dropdown-item" href="/showProduct">Продукт</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown show">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Отчёты</a>
+                    <div class="dropdown-menu hidden" style="position: absolute; transform: translate3d(0px, 48px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="/PersonalPage/downloading/employee">Отчет о сотрудниках</a>
+                        <a class="dropdown-item" href="/showSector">Отчет о продукции</a>
+                    </div>
+
+                </li>
+
+            </ul>
+
+            <form th:action="@{/search}" >
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit"  style="margin-left: 0%; margin-right: 1%">Поиск</button>
+            </form>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit" value="Sign Out" style="margin-left: 11%">Выход</button>
+            </form>
+        </div>
+    </nav>
+
+</div>
+
